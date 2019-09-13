@@ -5,17 +5,21 @@ import './styles.css';
 export default class Main extends Component {
 
     state = {
-        posts: []
+        posts: [],
+        postInfo: {},
+        page: 1,
     }
 
     componentDidMount() {
         this.getPosts();
     }
 
-    getPosts = async () => {
-        const response = await api.get('/posts');
+    getPosts = async (page = 1) => {
+        const response = await api.get(`/posts?page=${page}`);
 
-        this.setState({ posts: response.data.docs });
+        const { docs, ...postInfo } = response.data;
+
+        this.setState({ posts: docs, postInfo, page });
     }
 
     renderPost = ({ _id, title, description }) => 
@@ -25,12 +29,33 @@ export default class Main extends Component {
             <a href="">Acessar</a>
         </article>
 
+    prevPage = () => {
+        const { page } = this.state;
+
+        if (page === 1) return;
+
+        this.getPosts(page - 1);
+    }
+
+    nextPage = () => {
+        const { page, postInfo } = this.state;
+
+        if (page === postInfo.pages) return;
+
+        this.getPosts(page + 1);
+    }
+
     render() {
-        const { posts } = this.state;
+        const { posts, page, postInfo } = this.state;
         return (
             <div className="post-list">
                 {posts.map(this.renderPost)}
+
+                <div className="actions">
+                    <button disabled={page === 1} onClick={this.prevPage}>Anterior</button>
+                    <button disabled={page === postInfo.pages} onClick={this.nextPage}>Próxima</button>
+                </div>
             </div>
-        )
+        );
     }
 }

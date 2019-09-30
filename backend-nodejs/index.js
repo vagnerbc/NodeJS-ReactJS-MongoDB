@@ -2,8 +2,9 @@ const express = require("express");
 const router = require("./src/routes");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const config = require("./config");
 
-mongoose.connect("mongodb://localhost:27017/nodeapi", {
+mongoose.connect(config.connectionString, {
   useNewUrlParser: true
 });
 

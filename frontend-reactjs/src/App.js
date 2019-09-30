@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import HeaderBlog from './components/header/header'
-import Main from './pages/main';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Routes from './routes'
 
-class App extends Component {
-  render() {
-    return (
+function App() {
+  return(
+    <Router>
       <div className="App">
         <HeaderBlog />
-        <Main />
+        <Routes/>
       </div>
-    );
-  }
+    </Router>
+  );
 }
 
 export default App;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../../services/api'
 import './styles.css';
 
@@ -26,7 +27,13 @@ export default class Main extends Component {
         <article key={_id}>
             <strong>{ title }</strong>
             <p>{ description }</p>
-            <a href="">Acessar</a>
+            <Link 
+                to={{
+                        pathname: '/sobre', 
+                        state: {title, description}
+                    }}>
+                        Acessar
+            </Link>
         </article>
 
     prevPage = () => {
